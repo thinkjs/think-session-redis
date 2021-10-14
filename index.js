@@ -17,7 +17,8 @@ class RedisSession {
    */
   constructor(options = {}, ctx, cookieOptions) {
     assert(options.cookie, '.cookie required');
-    this.options = options;
+    const redisOptions = ctx.config('redis') || {};
+    this.options = { ...options, ...redisOptions };
     this.cookieOptions = cookieOptions || {};
     this.redis = new ThinkRedis(helper.omit(this.options, 'cookie,fresh'));
     this.ctx = ctx;
